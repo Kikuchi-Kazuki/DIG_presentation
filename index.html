@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <title>ジャンケンマンフィーバー</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+  <script type="text/javascript" src="modules/lodash.min.js"></script>
+  <script type="text/javascript" src="modules/test-boilerplate.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- <link rel="stylesheet" href="styles.css" /> -->
+</head>
+
+<body>
+  <div class='title'>
+    <h1>ジャンケンマンフィーバー</h1>
+    <h2 class="blink" id="start_message">PRESS START</h2>
+  </div>
+  <p class="img_center">
+    <img src="images/janken_animation_1000msec.gif" style="width: 500px; height: 500px" id="ImagOfJankenman";>
+  </p>
+  <h3></h3>
+  <div class="content">
+    <div class="inner">
+      <button type="submit" value="グー" id="gu" onclick="controlButton();janken(0);" disabled="true"><img src="images/gu_stone.png"/></button>
+      <button type="submit" value="チョキ" id="choki" onclick="controlButton();janken(1);" disabled="true"><img src="images/choki_scissors.png"/></button>
+      <button type="submit" value="パー"  id="pa" onclick="controlButton();janken(2);" disabled="true"><img src="images/pa_paper.png"/></button>
+    </div>
+    <button type="submit" value="スタート" id="start" onclick="clickStartButton()">START</button>
+  </div>
+    <!-- <p>残り回数</p> -->
+    <!-- <p id="game_start" >STARTボタンを押してね</p> -->
+  </div>
+  <script type="text/javascript" src="script.js"></script>
+</body>
+
+
+</html>
