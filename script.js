@@ -6,7 +6,7 @@ const soundsList = {
   ponSound: "sounds/pon.mp3",
   aikodeSound: "sounds/aiko.mp3",
   shoSound: "sounds/sho.mp3",
-  loseSound: "sounds/zuko.mp3",
+  loseSound: "sounds/zuko-.mp3",
   WinSound: "sounds/fever_yappi.mp3"
 }
 //スタートボタンの動作
@@ -44,11 +44,11 @@ function controlButton() {
       */
 }
 
-function playPon(){
+function playPon() {
   const music = new Audio(soundsList.ponSound);
   music.play();
 }
-function playSho(){
+function playSho() {
   const music = new Audio(soundsList.shoSound);
   music.play();
 }
@@ -58,12 +58,57 @@ function finishJanken() {
   document.getElementById("gu").disabled = true;
   document.getElementById("choki").disabled = true;
   document.getElementById("pa").disabled = true;
+  document.getElementById('ImagOfJankenman').src = 'images/janken_animation_1000msec.gif';
   jankenResult = "finish";
 }
 
-function selectJankenmanHand() {
+
+// function selectJankenmanHand() {
+//   //ジャンケンマンの手を抽選する
+//   const jankenmanHand = Math.trunc(Math.random() * 3);
+//   if (jankenmanHand === 0) {
+//     document.getElementById('ImagOfJankenman').src = 'images/gu_stone_black.jpg';
+//   } else if (jankenmanHand === 1) {
+//     document.getElementById('ImagOfJankenman').src = 'images/choki_scissors_black.jpg';
+//   } else {
+//     document.getElementById('ImagOfJankenman').src = 'images/pa_paper_black.jpg';
+//   }
+//   return jankenmanHand;
+// }
+
+function selectJankenmanHand(userHand) {
   //ジャンケンマンの手を抽選する
-  const jankenmanHand = Math.trunc(Math.random() * 3);
+  // const jankenmanHand = Math.trunc(Math.random() * 3);
+  let jankenmanHand;
+  const randomNumber = Math.trunc(Math.random() * 5); //0,1,2,3,4
+  console.log(randomNumber)
+  if (userHand === 0) { //ユーザーがグーを選んだとき
+    if (randomNumber === 1) {
+      jankenmanHand = 1;
+    } else if (randomNumber === 2 || randomNumber === 3) {
+      jankenmanHand = 2;
+    } else {
+      jankenmanHand = 0;
+    }
+
+  } else if (userHand === 1) { //ユーザーがチョキを選んだとき
+    if (randomNumber === 2) {
+      jankenmanHand = 2;
+    } else if (randomNumber === 0 || randomNumber === 3) {
+      jankenmanHand = 0;
+    } else {
+      jankenmanHand = 1;
+    }
+  } else { //ユーザーがパーを選んだとき
+    if (randomNumber === 0) {
+      jankenmanHand = 0;
+    } else if (randomNumber === 1 || randomNumber === 3) {
+      jankenmanHand = 1;
+    } else {
+      jankenmanHand = 2;
+    }
+  }
+  console.log(jankenmanHand);
   if (jankenmanHand === 0) {
     document.getElementById('ImagOfJankenman').src = 'images/gu_stone_black.jpg';
   } else if (jankenmanHand === 1) {
@@ -74,45 +119,59 @@ function selectJankenmanHand() {
   return jankenmanHand;
 }
 
+
+
 let jankenResult = 0;
-
+const gameCounter = {};
 function janken(userHand) {
-  
-  if(jankenResult === "draw"){
-    playSho();
-  } else{
-    playPon()
-  }
 
-  const jankenmanHand = selectJankenmanHand()
+  if (jankenResult === "draw") {
+    playSho();
+  } else {
+    playPon();
+  }
+  const jankenmanHand = selectJankenmanHand(userHand);
+  console.log(userHand);
+console.log(jankenmanHand);
   if (userHand === jankenmanHand) {
     console.log("aiko");
     setTimeout(() => {
       const music = new Audio(soundsList.aikodeSound);
       music.play();
     }, 500); // Execution 0.5sec
+    setTimeout(() => {
+      document.getElementById('ImagOfJankenman').src = 'images/janken_animation_20msec.gif';
+    }, 700); // Execution 0.7sec
     jankenResult = "draw";
+
   } else if (userHand === 0 && jankenmanHand === 1) {
     console.log("Win (selected Hand -> Gu)");
     setTimeout(() => {
       const music = new Audio(soundsList.WinSound);
       music.play();
     }, 500); // Execution 0.5sec
-    finishJanken();
-  } else if (userHand === 1 && jankenmanHand === 2) {
+    setTimeout(() => {
+      finishJanken();
+    }, 6000); // Execution 6sec
+    } else if (userHand === 1 && jankenmanHand === 2) {
     console.log("Win (selected Hand -> Choki)")
     setTimeout(() => {
       const music = new Audio(soundsList.WinSound);
       music.play();
     }, 500); // Execution 0.5sec
+    setTimeout(() => {
     finishJanken();
+  }, 6000); // Execution 6sec
   } else if (userHand === 2 && jankenmanHand === 0) {
     console.log("Win (selected Hand -> Pa)")
     setTimeout(() => {
       const music = new Audio(soundsList.WinSound);
       music.play();
     }, 500); // Execution 0.5sec
-    finishJanken();
+    setTimeout(() => {
+      finishJanken();
+    }, 6000); // Execution 6sec
+
   } else {
     console.log("You lose!")
     setTimeout(() => {
@@ -122,10 +181,3 @@ function janken(userHand) {
     finishJanken();
   }
 }
-
-
-
-
-
-//テストコードサンプル　
-//test({a:"A", b:"B"}, {b:"B", a:"A"});
